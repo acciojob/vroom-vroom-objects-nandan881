@@ -1,16 +1,85 @@
 <!DOCTYPE html>
-
-<html>
-
+<html lang="en">
 <head>
-	<link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vroom Vroom: Inheriting Objects</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+        button {
+            padding: 10px 15px;
+            margin-top: 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .output {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #333;
+        }
+    </style>
 </head>
-
 <body>
-	<!-- the entire body must be written by student -->
-    <script type="text/javascript" src="./script.js">
-</script>
+
+    <h1>Vroom Vroom: Inheriting Objects</h1>
+    <button onclick="testSportsCar()">Create Sports Car</button>
+    <div class="output" id="output"></div>
+
+    <script>
+        // Car Constructor Function
+        function Car(make, model) {
+            this.make = make;
+            this.model = model;
+        }
+
+        // Adding getMakeModel method to Car prototype
+        Car.prototype.getMakeModel = function () {
+            return `${this.make} ${this.model}`;
+        };
+
+        // SportsCar Constructor Function (Inheriting from Car)
+        function SportsCar(make, model, topSpeed) {
+            Car.call(this, make, model); // Inherit properties from Car
+            this.topSpeed = topSpeed; // New property specific to SportsCar
+        }
+
+        // Inheriting the prototype methods of Car
+        SportsCar.prototype = Object.create(Car.prototype);
+
+        // Reset the constructor reference
+        SportsCar.prototype.constructor = SportsCar;
+
+        // Adding getTopSpeed method to SportsCar prototype
+        SportsCar.prototype.getTopSpeed = function () {
+            return this.topSpeed;
+        };
+
+        // Function to test the SportsCar object
+        function testSportsCar() {
+            const car = new SportsCar("Ferrari", "Testarossa", 200);
+            
+            // Display results
+            const outputDiv = document.getElementById("output");
+            outputDiv.innerHTML = `
+                <strong>Car Make & Model:</strong> ${car.getMakeModel()}<br>
+                <strong>Top Speed:</strong> ${car.getTopSpeed()} mph
+            `;
+
+            console.log(car.getMakeModel()); // Output: Ferrari Testarossa
+            console.log(car.getTopSpeed());  // Output: 200
+        }
+    </script>
 
 </body>
-
 </html>
